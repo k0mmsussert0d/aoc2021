@@ -3,14 +3,8 @@ if __name__ == '__main__':
         return list(map(list, zip(*l)))
 
 
-    def freq_reduce(lst, func):
-        pos = 0
-        while len(lst) != 1:
-            cols = transpose(lst)
-            f = func(cols, pos)
-            lst = list(filter(lambda x: x[pos] == f, lst))
-            pos += 1
-        return lst[0]
+    def freq_reduce(lst, func, pos=0):
+        return int(''.join(lst[0]), 2) if len(lst) == 1 else freq_reduce(list(filter(lambda x: x[pos] == func(transpose(lst), pos), lst)), func, pos + 1)
 
 
     def oxygen(lst):
@@ -23,4 +17,4 @@ if __name__ == '__main__':
 
     with open('input', 'r') as file:
         input_ = [[j for j in list(i.strip())] for i in file.readlines()]
-        print(int(''.join(oxygen(input_.copy())), 2) * int(''.join(co2(input_.copy())), 2))
+        print(oxygen(input_.copy()) * co2(input_.copy()))
